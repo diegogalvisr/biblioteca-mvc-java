@@ -1,0 +1,9 @@
+CONSULTA SQL PARA TABLA LIBROS:
+
+SELECT lb.id_libro, lb.isbn,lb.titulo as Titulo, a.nombre as Autor, ed.nombre as EDITORIAL, lb.tipo_libro, lb.precio,lb.contMaterial, lb.categoria , lb.cantidad as CANTIDAD FROM libros lb INNER JOIN autor a ON lb.id_autor = a.id_autor INNER JOIN editorial ed ON lb.id_editorial=ed.id_editorial;
+
+INSERT INTO libros (id_libro, isbn, titulo, id_editorial, id_autor, tipo_libro, precio, contMaterial, categoria, cantidad)
+VALUES ('', '10000', 'Gabriel Garcia', (SELECT id_editorial FROM editorial WHERE nombre = 'EDITORIAL 2'), (SELECT id_autor FROM autor WHERE nombre = 'AUTOR 2'), 'B', '34800', 'CUADERNILLOS', 'ACCION', '10');
+
+
+SELECT id_libro, isbn, titulo, (SELECT nombre FROM editorial WHERE id_editorial = lb.id_editorial) as id_editorial, (SELECT nombre FROM autor WHERE id_autor = lb.id_autor) as id_autor, tipo_libro, precio, contMaterial, categoria, cantidad FROM libros lb;

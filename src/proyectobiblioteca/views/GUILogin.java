@@ -24,7 +24,7 @@ public class GUILogin extends JFrame {
 
     public GUILogin() {
         initComponents();
-        setSize(1020, 800);
+        setSize(600, 400);
         setTitle("Sistema de Biblioteca - Colegio Francisco Jose de Caldas");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -35,7 +35,7 @@ public class GUILogin extends JFrame {
         panelIzquierda.setBackground(verde);
         panelPrin.setBackground(verdeClaro);
         panelPrin.setPreferredSize(new Dimension(610, 800));
-        panelIzquierda.setPreferredSize(new Dimension(300, 800));
+        panelIzquierda.setPreferredSize(new Dimension(200, 800));
 
         // Configuramos el contenedor principal con un BorderLayout
         container.setLayout(new BorderLayout());
@@ -118,9 +118,9 @@ public class GUILogin extends JFrame {
                    setVisible(false);
                     }else{
                     JOptionPane.showMessageDialog(null, "Bienvenido al sistema ingresas como Auxiliar");
-                            GUIPrincipalAuxiliares formPrin=new GUIPrincipalAuxiliares();
+                    /*        GUIPrincipalAuxiliares formPrin=new GUIPrincipalAuxiliares();
                    formPrin.setVisible(true);
-                   setVisible(false);
+                   setVisible(false);*/
                     }
                   
                 } else {

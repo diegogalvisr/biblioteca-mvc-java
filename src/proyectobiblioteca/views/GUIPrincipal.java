@@ -21,7 +21,7 @@ import proyectobiblioteca.models.UsuariosDTO;
 import proyectobiblioteca.models.adminsDTO;
 
 public class GUIPrincipal extends JFrame {
-
+public static boolean logeo=false;
     private final JPanel panelPrin = new JPanel();
     private final JPanel panelIzquierda = new JPanel();
     private JLabel jLabelTop;
@@ -36,7 +36,11 @@ public class GUIPrincipal extends JFrame {
     LibrosDAO librosDAO = new LibrosDAO();
 
     public GUIPrincipal() {
-
+        if (logeo==false) {
+            JOptionPane.showMessageDialog(rootPane, "Debes logearte para ingresar a este menu");
+       GUILogin GL=new GUILogin();
+       GL.setVisible(true);
+        }else{
         pintarPanelIzquierdo();
         initComponents();
         setSize(1020, 800);
@@ -45,7 +49,7 @@ public class GUIPrincipal extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         this.setResizable(false);
-    }
+    }}
 
     private void initComponents() {
         panelArriba = new JPanel();
@@ -58,7 +62,7 @@ public class GUIPrincipal extends JFrame {
         panelIzquierda.setBackground(verde);
         panelPrin.setBackground(verdeClaro);
         panelPrin.setPreferredSize(new Dimension(610, 800));
-        panelIzquierda.setPreferredSize(new Dimension(300, 800));
+        panelIzquierda.setPreferredSize(new Dimension(200, 800));
 
         panelArriba.setBackground(verde);
         panelAbajo.setBackground(verdeClaro);
@@ -91,7 +95,7 @@ public class GUIPrincipal extends JFrame {
         botonAdmin.setPreferredSize(new Dimension(200, 150));
 
         // Establece el icono en el botón
-        botonAdmin.setIcon(new ImageIcon(getClass().getResource("/resources/iconAdmin.png")));
+       // botonAdmin.setIcon(new ImageIcon(getClass().getResource("/resources/iconAdmin.png")));
         botonAdmin.setBackground(verde);
         botonAdmin.addMouseListener(new MouseAdapter() {
             @Override
@@ -225,18 +229,25 @@ public class GUIPrincipal extends JFrame {
         botonesPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         botonesPanel.add(eliminarButton);
 
-        eliminarButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int filaSeleccionada = table.getSelectedRow();
-                if (filaSeleccionada < 0) {
-                    JOptionPane.showMessageDialog(null, "Es necesario que seleccione un usuario de la tabla para eliminar ");
-                    return;
-                }
-                int idAdmin = (int) table.getValueAt(filaSeleccionada, 0);
-                ADMINSdao.eliminarAdmin(idAdmin);
-                table.setModel(ADMINSdao.tablaAdmins());
-            }
-        });
+     eliminarButton.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        int filaSeleccionada = table.getSelectedRow();
+        if (filaSeleccionada < 0) {
+            JOptionPane.showMessageDialog(null, "Es necesario que seleccione un usuario de la tabla para eliminar");
+            return;
+        }
+        
+        String usuario = (String) table.getValueAt(filaSeleccionada, 0); // Obtiene el nombre de usuario de la fila seleccionada
+        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar al usuario: " + usuario + "?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            ADMINSdao.eliminarAdmin(usuario); // Realiza la eliminación en la base de datos
+            table.setModel(ADMINSdao.tablaAdmins()); // Actualiza la tabla con los nuevos datos
+        }
+    }
+});
+
+
 
         nuevoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
